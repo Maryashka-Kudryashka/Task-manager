@@ -1,0 +1,6 @@
+export const FETCH_TASKS = "FETCH_TASKS"
+export const POST_TASK = "POST_TASK"
+export const DELETE_TASK = "DELETE_TASK"
+export const UPDATE_TASK = "UPDATE_TASK"
+export const LOGIN_USER = "LOGIN_USER"
+export const LOGOUT_USER = "LOGOUT_USER"

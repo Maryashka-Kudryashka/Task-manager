@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import initStore from "./initStore"
+import './styles/index.css';
+import App from './components/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { Provider } from "react-redux"
+import { createBrowserHistory } from "history"
+import { routerMiddleware } from "react-router-redux"
+import { ConnectedRouter } from "connected-react-router"
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const history = createBrowserHistory()
+export const middleware = routerMiddleware(history)
+
+ReactDOM.render(
+  <Provider store={initStore(history)}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById("root")
+)
