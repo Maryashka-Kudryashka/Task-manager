@@ -5,6 +5,7 @@ import users, * as fromUsers from "./users"
 
 export const getTasks = state => fromTasks.getTasks(state.tasks)
 export const getCurrentUser = state => fromUsers.getCurrentUser(state.users)
+export const getAllUsers = state => fromUsers.getAllUsers(state.users)
 
 export default history =>
   combineReducers({

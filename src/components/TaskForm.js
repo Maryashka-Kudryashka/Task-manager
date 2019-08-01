@@ -1,8 +1,11 @@
 import React from "react";
 import { compose } from "ramda";
-import { withState, withHandlers, lifecycle } from "recompose";
+import { withState, withHandlers, lifecycle, withProps } from "recompose";
 import { connect } from "react-redux";
 import { postTask } from "../actions/tasks";
+import Select from "react-select";
+import { getAllUsers } from "../reducers"
+import { allUsers } from "../actions/auth"
 
 const TaskForm = ({
   setTitle,
@@ -10,8 +13,12 @@ const TaskForm = ({
   formSubmission,
   setTaskToUpdate,
   title,
-  description
+  description,
+  availableMembers,
+  setMembers,
+  allUsers
 }) => (
+console.log(allUsers),
   <form className={"TaskForm"} onSubmit={formSubmission}>
     <button onClick={() => setTaskToUpdate(false)}>Close</button>
     <label>Title:</label>
@@ -22,6 +29,9 @@ const TaskForm = ({
       value={description}
       onChange={ev => setDescription(ev.target.value)}
     />
+
+    <label>To share with:</label>
+    <Select options={availableMembers} onChange={value => setMembers(value.value)} />
 
     <button>Submit</button>
   </form>
@@ -34,19 +44,34 @@ const enhancer = compose(
   withState("description", "setDescription", props => {
     return props.taskToUpdate.description || "";
   }),
+  withState("members", "setMembers", props => {
+    return props.taskToUpdate.members || [];
+  }),
   connect(
-    null,
+    state => ({
+      allUsers: getAllUsers(state)
+    }),
     dispatch => ({
-      addNewTask: task => dispatch(postTask(task))
+      addNewTask: task => dispatch(postTask(task)),
+      fetchAllUsers: () => dispatch(allUsers())
     })
   ),
+  withProps(({members, allUsers})=>({
+    availableMembers: allUsers.filter(user => !members.includes(user.email))
+  })),
   lifecycle({
     componentDidUpdate(prevProps) {
       if (prevProps.taskToUpdate != this.props.taskToUpdate) {
         this.props.setTitle(this.props.taskToUpdate.title || "");
         this.props.setDescription(this.props.taskToUpdate.description || "");
+        this.props.setMembers(this.props.taskToUpdate.members || []);
       }
-    }
+    },
+    componentWillMount() {
+        if (!this.props.currenUser) {
+          this.props.fetchAllUsers();
+        }
+      }
   }),
   withHandlers({
     formSubmission: ({
