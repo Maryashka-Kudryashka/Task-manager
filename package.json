@@ -2,7 +2,6 @@
   "name": "task-manager",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5001",
   "dependencies": {
     "await-to-js": "^2.1.1",
     "bootstrap": "^4.3.1",
@@ -11,6 +10,7 @@
     "cors": "^2.8.5",
     "express-session": "^1.16.2",
     "history": "^4.9.0",
+    "http-proxy-middleware": "^0.19.1",
     "mongodb": "^3.3.0-beta2",
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
