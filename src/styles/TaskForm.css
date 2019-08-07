@@ -1,0 +1,11 @@
+.TaskForm {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: 25px;
+}
+
+.submit {
+  margin-right: 20px;
+}

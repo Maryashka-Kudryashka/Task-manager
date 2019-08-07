@@ -1,0 +1,17 @@
+.Signup {
+  margin: auto;
+  margin-top: 100px;
+  width: 25em;
+  text-align: center;
+  color: #6b757d;
+}
+
+.group {
+  text-align: left;
+}
+
+.login {
+  display: block;
+  margin: 10px;
+  text-decoration: underline;
+}

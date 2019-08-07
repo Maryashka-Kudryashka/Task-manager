@@ -26,8 +26,8 @@ export const deleteTaskAction = task => ({
   task
 });
 
-export const fetchTasks = () => async dispatch => {
-  let tasks = await fromApi.getTasks();
+export const fetchTasks = email => async dispatch => {
+  let tasks = await fromApi.getTasks(email);
   dispatch(fetchTasksAction(tasks));
 };
 

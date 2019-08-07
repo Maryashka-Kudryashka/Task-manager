@@ -26,16 +26,14 @@ module.exports = () => {
   passport.use('local-signup', new Strategy(
     { passReqToCallback : true },
     async function(req, username, password, cb) {
-      const user = await db
+      const saveOperation = await db
       .get()
       .collection("users")
-      .save({
+      .insertOne({
         email: username,
         password: password,
-        // name: name
       });
-      console.log("passport sighup", user)
-
+      const user = saveOperation.ops.pop();
       return cb(null, user);
     }
   ));
@@ -46,12 +44,10 @@ module.exports = () => {
   });
 
   passport.deserializeUser(async function(id, cb) {
-    console.log(id, "deserialize");
     const user = await db
       .get()
       .collection("users")
       .findOne({ _id: ObjectId(id) });
-
     if (!user) return cb(new Error("deserialize error"));
 
     return cb(null, user);

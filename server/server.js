@@ -4,50 +4,21 @@ const task = require("./routes/task");
 const auth = require("./routes/auth");
 const app = express();
 const bodyParser = require("body-parser");
-const cors = require("cors");
-const url = "mongodb://localhost:27017/taskDB";
+const url = "mongodb+srv://admin:adminpassword@cluster0-zbie4.mongodb.net/test?retryWrites=true&w=majority";
 const configPassport = require("./config/passport");
 var passport = require("passport");
 const expressSession = require("express-session");
 const settings = require("./config/settings");
 
 module.exports.start = function(done) {
-
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "frontendURL");
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
-
-  app.use(
-    expressSession({
-      secret: "keyboard cat",
-      cookie: {
-        secure: true
-      },
-      resave: false,
-      saveUninitialized: false
-    })
-  );
-
   configPassport()
-  app.use(cors());
-
-
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-
-
+  app.use(expressSession(({ secret: 'randomSecret', resave: false, saveUninitialized: false })));
   app.use(passport.initialize());
   app.use(passport.session());
-
   app.use("/task", task);
   app.use("/auth", auth);
-
   db.connect(url, err => {
     if (err) {
       console.log("Unable to connect to Mongo.", err);

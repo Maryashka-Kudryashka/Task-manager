@@ -5,7 +5,6 @@ const express = require('express'),
 const db = require("../db");
 
 const stripUser = (req, res, next) => {
-console.log(req.user, "strip")
   const user = req.user
   delete user.password;
   req.user = user;
@@ -16,7 +15,6 @@ router.post('/login',
   passport.authenticate('local'),
   stripUser,
   function (req, res) {
-    console.log("login")
     res.send({ user: req.user, status: 'OK' });
   }
 );
@@ -30,16 +28,14 @@ router.post('/signup',
   passport.authenticate('local-signup'),
   stripUser,
   function (req, res) {
-    console.log("signup")
     res.send({ user: req.user, status: 'OK' });
   }
 );
 
 router.get('/getCurrentUser',
-//   ensureLoggedIn('/login'),
-//   stripUser,
+  ensureLoggedIn(),
+  stripUser,
   function (req, res) {
-    console.log("getCurrentUser", req.user)
     res.send({ user: req.user, status: 'OK' });
   }
 );

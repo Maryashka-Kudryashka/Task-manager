@@ -1,46 +1,70 @@
 import React from "react";
 import { compose } from "ramda";
-import { withHandlers, withState } from "recompose";
-import { connect } from "react-redux"
-import { loginUser } from "../actions/auth"
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withHandlers, withState } from "recompose";
+import { Form, Button, Alert } from "react-bootstrap";
 
-const Login = ({ formSubmission, email, password, setEmail, setPassword }) => (
-  <form className="Login" onSubmit={formSubmission}>
-    <h1>Login</h1>
-    <label>Email:</label>
-    <input value={email} onChange={ev => setEmail(ev.target.value)} />
+import "../styles/Login.css";
+import { loginUser } from "../actions/auth";
+import { getCurrentUser } from "../reducers";
 
-    <label>Password:</label>
-    <input
-      value={password}
-      onChange={ev => setPassword(ev.target.value)}
-    />
+const Login = ({
+  formSubmission,
+  email,
+  password,
+  setEmail,
+  setPassword,
+  currentUser
+}) => (
+  <Form onSubmit={formSubmission} className={"Login"}>
+    <h2>Login</h2>
+    <Form.Group className={"group"} controlId="formBasicEmail">
+      <Form.Label>Email address</Form.Label>
+      <Form.Control
+        type="email"
+        placeholder="Enter email"
+        alue={email}
+        onChange={ev => setEmail(ev.target.value)}
+      />
+    </Form.Group>
 
-    <button>Submit</button>
+    <Form.Group className={"group"} controlId="formBasicPassword">
+      <Form.Label>Password</Form.Label>
+      <Form.Control
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={ev => setPassword(ev.target.value)}
+      />
+    </Form.Group>
 
-    <Link to={`/register`} >Sign up</Link>
-  </form>
+    {currentUser.error && <Alert variant={"danger"}>{currentUser.error}</Alert>}
+    <Button variant="info" type="submit">
+      Submit
+    </Button>
+    <Link className={"signup"} to={`/register`}>
+      Sign up
+    </Link>
+  </Form>
 );
 
 const enhancer = compose(
   withState("email", "setEmail", ""),
   withState("password", "setPassword", ""),
   connect(
-    // state => ({
-    //   currenUser: getCurrentUser(state)
-    // }),
-    null,
+    state => ({
+      currentUser: getCurrentUser(state)
+    }),
     dispatch => ({
-      login: (email, password ) => dispatch(loginUser(email, password ))
+      login: (email, password) => dispatch(loginUser(email, password))
     })
   ),
   withHandlers({
     formSubmission: ({ email, password, login }) => ev => {
       ev.preventDefault();
       if (email && password) {
-        console.log("login")
-            login(email, password );
+        login(email, password);
       }
     }
   })

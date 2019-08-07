@@ -1,0 +1,18 @@
+.Header {
+  border-bottom: 2px solid #15a2b8;
+}
+
+.logout {
+  margin-left: 30px;
+}
+
+.Header .title {
+  color: #15a2b8;
+  font-family: "Permanent Marker", cursive;
+  font-size: 30px;
+  padding: 0;
+}
+
+.Header .title:hover {
+  color: #15a2b8;
+}

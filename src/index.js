@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import initStore from "./initStore"
-import './styles/index.css';
-import App from './components/App';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createBrowserHistory } from "history";
+import { routerMiddleware } from "react-router-redux";
+import { ConnectedRouter } from "connected-react-router";
 
-import { Provider } from "react-redux"
-import { createBrowserHistory } from "history"
-import { routerMiddleware } from "react-router-redux"
-import { ConnectedRouter } from "connected-react-router"
+import "./styles/index.css";
+import App from "./components/App";
+import initStore from "./initStore";
 
-const history = createBrowserHistory()
-export const middleware = routerMiddleware(history)
+const history = createBrowserHistory();
+export const middleware = routerMiddleware(history);
 
 ReactDOM.render(
   <Provider store={initStore(history)}>
@@ -19,4 +19,4 @@ ReactDOM.render(
     </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
-)
+);

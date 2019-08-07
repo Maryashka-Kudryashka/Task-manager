@@ -1,0 +1,17 @@
+.Task {
+  /* height: 100%; */
+  margin-bottom: 20px;
+  margin-left: 25px;
+}
+
+.member::after {
+  content: ",";
+}
+
+.member:last-of-type::after {
+  content: "";
+}
+
+.edit {
+  margin-right: 10px;
+}
