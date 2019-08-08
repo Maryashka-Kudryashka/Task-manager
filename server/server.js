@@ -13,6 +13,8 @@ var path = require('path');
 
 module.exports.start = function(done) {
   configPassport()
+  app.use(express.static(path.join(__dirname, '../build')));
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(expressSession(({ secret: 'randomSecret', resave: false, saveUninitialized: false })));
@@ -20,6 +22,7 @@ module.exports.start = function(done) {
   app.use(passport.session());
   app.use("/task", task);
   app.use("/auth", auth);
+
 
   app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
