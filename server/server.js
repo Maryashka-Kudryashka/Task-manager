@@ -23,7 +23,6 @@ module.exports.start = function(done) {
   app.use("/task", task);
   app.use("/auth", auth);
 
-
   app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
   });
