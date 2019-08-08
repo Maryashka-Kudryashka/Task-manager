@@ -9,6 +9,7 @@ const configPassport = require("./config/passport");
 var passport = require("passport");
 const expressSession = require("express-session");
 const settings = require("./config/settings");
+var path = require('path');
 
 module.exports.start = function(done) {
   configPassport()
